@@ -1,0 +1,40 @@
+{
+    "family": "log2efs",
+    "networkMode": "awsvpc",
+    "containerDefinitions": [
+       {
+           "name": "log2efs",
+           "image": "123456789012.dkr.ecr.ap-northeast-1.amazonaws.com/ecs-springboot:latest",
+           "portMappings": [
+                {
+                    "containerPort": 8080,
+                    "hostPort": 8080,
+                    "protocol": "tcp"
+                }
+            ],
+           "essential": true,
+           "mountPoints": [
+            {
+              "sourceVolume": "efs-test",
+              "containerPath": "/data/applogs"
+            }
+          ]
+       }
+    ],
+    "volumes": [
+        {
+          "name": "efs-test",
+          "efsVolumeConfiguration": {
+            "fileSystemId": "fs-0dff287b06114xxxx"
+          }
+        }
+      ],
+    "requiresCompatibilities": [ "FARGATE" ],
+    "cpu": "2048",
+    "memory": "4096",
+    "runtimePlatform": {
+           "operatingSystemFamily": "LINUX",
+           "cpuArchitecture": "X86_64"
+     },
+    "executionRoleArn": "arn:aws:iam::123456789012:role/ecsTaskExecutionRole"
+}%
